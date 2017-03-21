@@ -1,12 +1,15 @@
-let app  = require('express')();
-let http = require('http').Server(app);
-let io   = require('socket.io')(http);
+let express = require('express');
+let app     = express();
+let http    = require('http').Server(app);
+let io      = require('socket.io')(http);
 
 const PORT = 3000;
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/templates/index.html');
 });
+
+app.use(express.static(__dirname + '/static'));
 
 io.on('connection', function (socket) {
 
