@@ -1,11 +1,16 @@
 var chatVM = new Vue({
-    el     : '#chatframe',
-    data   : {
+    el      : '#chatframe',
+    data    : {
         message : '',
         username: '',
         io      : null
     },
-    methods: {
+    computed: {
+        placeholder: function () {
+            return 'Press [Enter ↵] to send message as ' + this.username;
+        }
+    },
+    methods : {
         /**
          * Make node "fat" (apply bold and make it gray)
          *
@@ -169,7 +174,7 @@ var chatVM = new Vue({
             });
         }
     },
-    mounted: function () {
+    mounted : function () {
         // Store Socket.IO in data
         this.io = io();
 

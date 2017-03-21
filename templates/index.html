@@ -21,7 +21,7 @@
             <ul id="messages" ref="messageDisplay"></ul>
 
             <form method="POST" action="/message/" @submit.prevent="sendMessage">
-                <input v-model="message" autocomplete="off" :placeholder="'Press [Enter ↵] to send message as ' + username" />
+                <input v-model="message" autocomplete="off" :placeholder="placeholder" />
             </form>
 
         </div>
