@@ -156,7 +156,7 @@
                      * @param {string} user - The name of the user
                      * @param {string} text - The message contents
                      */
-                    addMessage    : function (text, user) {
+                    addMessage    : function (user, text) {
                         // Create a new li node
                         var node = this.li(user, text);
 
@@ -212,7 +212,7 @@
 
                         // Receive new message
                         io.on('chat message', function (msg) {
-                            vm.addMessage(msg.message, msg.user);
+                            vm.addMessage(msg.user, msg.message);
                         });
 
                         // New user joins
