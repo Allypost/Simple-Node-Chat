@@ -1,0 +1,19 @@
+{
+  "name": "lon-chat",
+  "version": "1.0.0",
+  "description": "Chat service for Land of Nevard",
+  "main": "chat.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allypost/LoN-Chat.git"
+  },
+  "author": "Allypost",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Allypost/LoN-Chat/issues"
+  },
+  "homepage": "https://github.com/Allypost/LoN-Chat#readme"
+}
