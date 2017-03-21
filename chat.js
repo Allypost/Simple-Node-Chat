@@ -15,7 +15,7 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('user join', socket.id);
 
     socket.on('chat message', function (msg) {
-        socket.broadcast.emit('chat message', { 'message': msg, 'user': socket.id });
+        socket.broadcast.emit('chat message', { 'message': msg, 'username': socket.id });
     });
 
     socket.on('disconnect', function () {

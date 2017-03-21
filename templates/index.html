@@ -63,9 +63,9 @@
             var chatVM = new Vue({
                 el     : '#chatframe',
                 data   : {
-                    message: '',
-                    user   : '',
-                    io     : null
+                    message : '',
+                    username: '',
+                    io      : null
                 },
                 methods: {
                     /**
@@ -121,18 +121,18 @@
                     /**
                      * Create a li node
                      *
-                     * @param {string}  user     - The name of the user
+                     * @param {string}  username - The name of the user
                      * @param {string}  text     - The text to add to the li (the message contents)
                      * @param {boolean} [status] - Whether the li represents a message or a status
                      *
                      * @return {Element} A new span element
                      */
-                    li            : function (user, text, status) {
+                    li            : function (username, text, status) {
                         // Create new li node
                         var liNode = document.createElement('li');
 
                         // Create spans for username and message
-                        var usrNode = this.span(user + ': ', true); // Username is set to monospace (just because)
+                        var usrNode = this.span(username + ': ', true); // Username is set to monospace (just because)
                         var msgNode = this.span(text);
 
                         // If it's marked as status
@@ -153,12 +153,12 @@
                     /**
                      * Add message to display element
                      *
-                     * @param {string} user - The name of the user
-                     * @param {string} text - The message contents
+                     * @param {string} username - The name of the user
+                     * @param {string} text     - The message contents
                      */
-                    addMessage    : function (user, text) {
+                    addMessage    : function (username, text) {
                         // Create a new li node
-                        var node = this.li(user, text);
+                        var node = this.li(username, text);
 
                         // Append it to the display element
                         this.$add(node);
@@ -168,7 +168,7 @@
                      */
                     addSelfMessage: function () {
                         // Add message to the screen
-                        this.addMessage(this.user, this.message);
+                        this.addMessage(this.username, this.message);
 
                         // Clear the input
                         this.message = '';
@@ -212,22 +212,22 @@
 
                         // Receive new message
                         io.on('chat message', function (msg) {
-                            vm.addMessage(msg.user, msg.message);
+                            vm.addMessage(msg.username, msg.message);
                         });
 
                         // New user joins
-                        io.on('user join', function (user) {
-                            vm.addStatus('+ ' + user + ' joined the chat');
+                        io.on('user join', function (username) {
+                            vm.addStatus('+ ' + username + ' joined the chat');
                         });
 
                         // Existing user leaves
-                        io.on('user leave', function (user) {
-                            vm.addStatus('- ' + user + ' left the chat');
+                        io.on('user leave', function (username) {
+                            vm.addStatus('- ' + username + ' left the chat');
                         });
 
                         // Store server returned username
-                        io.on('user set', function (user) {
-                            vm.user = user;
+                        io.on('user set', function (username) {
+                            vm.username = username;
                         });
                     }
                 },
