@@ -43,16 +43,49 @@
             #messages li:nth-child(odd) {
                 background: #eee;
             }
+
+            #username {
+                position: fixed;
+                bottom: 2.8em;
+                right: 0;
+                font-family: monospace;
+                font-size: 1.2em;
+                background: #9e9e9e;
+                color: #fff;
+                padding: .2em .4em;
+                cursor: default;
+                text-decoration: underline;
+                -webkit-transition: opacity .2s;
+                -moz-transition: opacity .2s;
+                -ms-transition: opacity .2s;
+                -o-transition: opacity .2s;
+                transition: opacity .2s;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            #username::before {
+                content: 'User: ';
+                text-decoration: none;
+            }
+
+            #username:hover {
+                opacity: .2;
+            }
         </style>
     </head>
     <body>
 
         <div id="chatframe">
 
+            <span id="username">{{ username }}</span>
+
             <ul id="messages" ref="messageDisplay"></ul>
 
             <form method="POST" action="/message/" @submit.prevent="sendMessage">
-                <input v-model="message" autocomplete="off" placeholder="Press [Enter ↵] to send" />
+                <input v-model="message" autocomplete="off" :placeholder="'Press [Enter ↵] to send message as ' + username" />
             </form>
 
         </div>
