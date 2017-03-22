@@ -1,15 +1,4 @@
-let express = require('express');
-let app     = express();
-let http    = require('http').Server(app);
-let io      = require('socket.io')(http);
-
-const PORT = 3000;
-
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/templates/index.html');
-});
-
-app.use(express.static(__dirname + '/static'));
+let io = require('socket.io')(3000, { transports: [ 'polling', 'websocket' ] });
 
 io.on('connection', function (socket) {
 
@@ -25,8 +14,4 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('user leave', socket.id);
     })
 
-});
-
-http.listen(PORT, function () {
-    console.log(`listening on *:${PORT}`);
 });
