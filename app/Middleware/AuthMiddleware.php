@@ -62,9 +62,10 @@ class AuthMiddleware {
      * @return array The user object
      */
     protected function getAppDataCache(string $identifier) {
-        $cache = $this->container->get('cache');
+        $cache  = $this->container->get('cache');
+        $prefix = $this->container->get('settings')[ 'auth' ][ 'domain' ];
 
-        $cacheKey = ":user-data|{$identifier}:";
+        $cacheKey = "$prefix:user-data|{$identifier}:";
         $cacheFor = 5;
 
         $cacheHit = $userData = $cache->get($cacheKey);
