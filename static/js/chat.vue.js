@@ -112,6 +112,10 @@ let chatVM = new Vue({
                 msgNode = this._mono(msgNode);
             }
 
+            // If you're the poster
+            if (username == this.username)
+                liNode.setAttribute('class', 'my-message'); // Mark the li with the class my-message
+
             // Append username and message nodes to the main li node
             liNode.appendChild(usrNode);
             liNode.appendChild(msgNode);

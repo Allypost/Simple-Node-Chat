@@ -69,3 +69,16 @@ form input {
 #username:hover {
     opacity: .2;
 }
+
+li.my-message {
+    position: relative;
+}
+
+li.my-message::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    height: 1em;
+    font-weight: bold;
+    opacity: .5;
+}
