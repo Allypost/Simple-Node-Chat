@@ -4,6 +4,7 @@ namespace App\DB;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Slim\Container;
 
 class User extends Model {
 
@@ -64,6 +65,16 @@ class User extends Model {
      */
     public function addConfig(array $config) {
         $this->config = $config;
+
+        return $this;
+    }
+
+    public function addContainer(Container $container, bool $setOtherDependencies = FALSE) {
+        $this->container = $container;
+
+        if ($setOtherDependencies)
+            $this->addHash($container->get('hash'))
+                 ->addConfig($container->get('settings')[ 'auth' ]);
 
         return $this;
     }
