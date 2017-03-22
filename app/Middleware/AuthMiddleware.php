@@ -19,9 +19,17 @@ class AuthMiddleware {
         $this->request  = $request;
         $this->response = $response;
 
+        $this->run();
+
         $response = $next($request, $response);
 
         return $response;
+    }
+
+    public function run() {
+        $this->setAppData();
+
+        $this->checkRememberMe();
     }
 
     /**
