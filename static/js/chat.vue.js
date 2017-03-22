@@ -17,15 +17,37 @@ let chatVM = new Vue({
     },
     methods : {
         /**
-         * Make node "fat" (apply bold and make it gray)
+         * Make node bold
          *
          * @param {Element} node - The node to change
          *
          * @return {Element} Styled node
          */
-        _fat(node) {
+        _bold(node) {
             node.style.fontWeight = 'bold';
-            node.style.color      = 'gray';
+
+            return node;
+        },
+        /**
+         * Make node gray
+         *
+         * @param {Element} node - The node to change
+         * @return {Element} Styled node
+         */
+        _gray(node) {
+            node.style.color = 'gray';
+
+            return node;
+        },
+        /**
+         * Style the node to be a status (gray and bold)
+         *
+         * @param {Element} node - The node to change
+         * @return {Element} Styled node
+         */
+        _status(node) {
+            node = this._gray(node);
+            node = this._bold(node);
 
             return node;
         },
@@ -84,8 +106,8 @@ let chatVM = new Vue({
 
             // If it's marked as status
             if (status) {
-                // Make the whole li bold...
-                liNode  = this._fat(liNode);
+                // Make the whole li bold and gray...
+                liNode  = this._status(liNode);
                 // ...and make the message monospace to fit with the username
                 msgNode = this._mono(msgNode);
             }
