@@ -65,10 +65,7 @@ $container[ 'hash' ] = function (Container $c) {
 };
 
 $container[ 'user' ] = function (Container $c) {
-    $settings = $c->get('settings')[ 'auth' ];
-    $hash     = $c->get('hash');
-
     $user = new \App\DB\User;
 
-    return $user->addHash($hash)->addConfig($settings);
+    return $user->addContainer($c, TRUE);
 };
