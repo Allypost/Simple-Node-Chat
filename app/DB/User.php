@@ -125,6 +125,43 @@ class User extends Model {
     }
 
     /**
+     * Remove the remember (auth) credentials for the current User
+     */
+    public function removeRememberCredentials() {
+        $this->updateRememberCredentials(NULL, NULL);
+    }
+
+    /**
+     * Refreshes the user session
+     *
+     * @param array $credentials The credentials ([ 0 => the identifier, 1 => The token (un-hashed) ])
+     *
+     * @return null|self Null if unsuccessful or user object if valid
+     */
+    public function refresh(array $credentials) {
+        $h = $this->hash;
+
+        $identifier = $credentials[ 0 ];
+        $token      = $h->hash($credentials[ 1 ]);
+
+        $user = $this->where('remember_identifier', $identifier)->first();
+
+        if (!$user)
+            return NULL;
+
+        if ($h->hashCheck($token, $user->remember_token)) {
+            $_SESSION[ $this->config[ 'session' ] ] = $user->id;
+
+            $this->container->auth = $user;
+
+            return $user;
+        } else
+            $this->removeRememberCredentials();
+
+        return NULL;
+    }
+
+    /**
      * Log the current user in (step 1 of 3)
      *  - Basic data sanitisation
      *  - Check login attempts

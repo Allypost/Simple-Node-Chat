@@ -8,12 +8,17 @@ use Slim\Container;
 
 class AuthMiddleware {
     private $container;
+    private $request;
+    private $response;
 
     public function __construct(Container $container) {
         $this->container = $container;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface {
+        $this->request  = $request;
+        $this->response = $response;
+
         $response = $next($request, $response);
 
         return $response;
@@ -77,6 +82,28 @@ class AuthMiddleware {
         }
 
         return $userData;
+    }
+
+    /**
+     * Check and validate authentication cookie
+     */
+    protected function checkRememberMe() {
+        $rememberName = $this->container->get('settings')[ 'auth' ][ 'remember' ];
+        $cookies      = $this->request->getCookieParams();
+
+        if (
+            isset($cookies[ $rememberName ])
+            && !$this->container->get('auth')
+        ) {
+
+            $data        = $cookies[ $rememberName ];
+            $credentials = explode('..', $data);
+
+            if (empty(trim($data)) || count($credentials) !== 2)
+                setcookie($rememberName, '', -1, '/');
+            else
+                $this->container->get('user')->refresh($credentials);
+        }
     }
 
 }
