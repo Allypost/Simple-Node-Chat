@@ -22,16 +22,16 @@ class AuthMiddleware {
     /**
      * Get user ID from session
      */
-    protected function getID() {
+    protected function getIdentifier() {
         $sessionKey = $this->getSessionKey();
 
-        $id = @$_SESSION[ $sessionKey ];
+        $identifier = @$_SESSION[ $sessionKey ];
 
-        if (!$id) {
-            $id = FALSE;
+        if (!$identifier) {
+            $identifier = FALSE;
         }
 
-        return $id;
+        return $identifier;
     }
 
     /**
@@ -46,33 +46,33 @@ class AuthMiddleware {
     /**
      * Sets the user authentication data
      *
-     * @param mixed $id The user data
+     * @param mixed $identifier The user data
      */
-    protected function setAppData($id) {
-        if ($id) {
-            $this->container->auth = $this->getAppDataCache((string) $id);
+    protected function setAppData($identifier) {
+        if ($identifier) {
+            $this->container->auth = $this->getAppDataCache((string) $identifier);
         } else {
-            $this->container->auth = $id;
+            $this->container->auth = $identifier;
         }
     }
 
     /**
      * Gets the cached user data or returns fresh data if the cached object doesn't exist
      *
-     * @param string $id The identifier of the user
+     * @param string $identifier The identifier of the user
      *
      * @return array The user object
      */
-    protected function getAppDataCache(string $id) {
+    protected function getAppDataCache(string $identifier) {
         $cache = $this->container->get('cache');
 
-        $cacheKey = ":user-data|{$id}:";
+        $cacheKey = ":user-data|{$identifier}:";
         $cacheFor = 5;
 
         $cacheHit = $userData = $cache->get($cacheKey);
 
         if (!$cacheHit) {
-            $userData = $this->app->user->fetch($id, TRUE);
+            $userData = $this->container->get('user')->fetch($identifier);
 
             $cache->set($cacheKey, $userData, MEMCACHE_COMPRESSED, $cacheFor);
         }
