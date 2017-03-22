@@ -36,6 +36,13 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
+# Composer
+/vendor/
+composer.lock
+
+# Slim
+/logs/*
+!/logs/README.md
 
 ## PhpStorm
 .idea/
