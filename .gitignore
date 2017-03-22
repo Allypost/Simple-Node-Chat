@@ -39,6 +39,7 @@ jspm_packages
 # Composer
 /vendor/
 composer.lock
+composer.phar
 
 # Slim
 /logs/*
