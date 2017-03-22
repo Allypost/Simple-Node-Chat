@@ -35,6 +35,6 @@ final class HomeAction {
     }
 
     public function home(Request $request, Response $response) {
-        return $this->chat($request, $response);
+        return $this->auth ? $this->chat($request, $response) : $this->login($request, $response);
     }
 }
