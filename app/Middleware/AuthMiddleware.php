@@ -49,14 +49,14 @@ class AuthMiddleware {
 
     /**
      * Sets the user authentication data
-     *
-     * @param mixed $identifier The user data
      */
-    protected function setAppData($identifier) {
+    protected function setAppData() {
+        $identifier = $this->getIdentifier();
+
         if ($identifier)
             $this->container->auth = $this->getAppDataCache((string) $identifier);
         else
-            $this->container->auth = $identifier;
+            $this->container->auth = FALSE;
     }
 
     /**
