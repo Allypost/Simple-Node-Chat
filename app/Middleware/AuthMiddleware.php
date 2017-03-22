@@ -27,9 +27,8 @@ class AuthMiddleware {
 
         $identifier = @$_SESSION[ $sessionKey ];
 
-        if (!$identifier) {
+        if (!$identifier)
             $identifier = FALSE;
-        }
 
         return $identifier;
     }
@@ -49,11 +48,10 @@ class AuthMiddleware {
      * @param mixed $identifier The user data
      */
     protected function setAppData($identifier) {
-        if ($identifier) {
+        if ($identifier)
             $this->container->auth = $this->getAppDataCache((string) $identifier);
-        } else {
+        else
             $this->container->auth = $identifier;
-        }
     }
 
     /**
