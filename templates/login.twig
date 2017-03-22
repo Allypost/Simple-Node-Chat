@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' 'unsafe-inline' *;">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <title>Simple chat</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css" />
+    </head>
+    <body>
+
+        <main class="container">
+
+            <div class="valign-wrapper" style="height: 100vh;">
+
+                <div class="valign">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col s12">
+                                <h2>Login</h2>
+                            </div>
+
+                            <form method="POST" action="/login" class="col s12" id="login">
+                                <div class="row">
+                                    <inpt name="identifier" type="text">User ID</inpt>
+                                    <inpt name="password" type="password">Password</inpt>
+                                    <div class="col s12 right-align">
+                                        <button class="btn btn-large waves-effect">Login</button>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="csrf_token" value="1478a93a39f7b672b23b55428cb9e52750d4c90ceabdb033df0ac709bf95b805">
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+        <script src="/static/js/util.min.js?no-cache"></script>
+
+        <script src="/static/js/components/inpt.min.js?no-cache"></script>
+        <script src="/static/js/login.min.js?no-cache"></script>
+    </body>
+</html>

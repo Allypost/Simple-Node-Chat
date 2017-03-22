@@ -5,12 +5,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *;">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
 
         <title>Simple chat</title>
 
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/static/css/chat.min.css?no-cache">
     </head>
     <body>
 
@@ -26,8 +27,8 @@
 
         </div>
 
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
-        <script src="/js/chat.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.js"></script>
+        <script src="/static/js/chat.min.js?no-cache"></script>
     </body>
 </html>
