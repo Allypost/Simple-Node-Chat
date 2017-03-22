@@ -40,8 +40,19 @@ return [
             'prefix'    => '',
         ],
 
+        'cache' => [
+            'servers' => [
+                [
+                    'host'       => '127.0.0.1',
+                    'port'       => 11211,
+                    'persistent' => TRUE,
+                    'weight'     => 1,
+                ],
+            ],
+        ],
+
         // Hash helper settings
-        'hash'                   => [
+        'hash'  => [
             'algorithm'  => PASSWORD_BCRYPT,
             'cost'       => 8,
             'secret_key' => 'h@#pLg1I64vkH%^L4kSB&OTiPiEbj8&Rikm781NSdxdJv68yN%66wmy*Z2QbvauKs1j#@41I%7$wGk7d$QzS7x0Q@Y6$ev5dxuKr',

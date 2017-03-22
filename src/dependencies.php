@@ -15,6 +15,7 @@ $container[ 'view' ] = function (Container $c) {
     return $view;
 };
 
+// Authenticated user
 $container[ 'auth' ] = function () {
     return FALSE;
 };
@@ -27,6 +28,19 @@ $container[ 'logger' ] = function (Container $c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings[ 'path' ], $settings[ 'level' ]));
 
     return $logger;
+};
+
+// memcached
+$container[ 'cache' ] = function (Container $c) {
+    $settings = $c->get('settings')[ 'cache' ];
+    $servers  = $settings[ 'servers' ];
+
+    $cache = new Memcache();
+
+    foreach ($servers as $server)
+        $cache->addserver($server[ 'host' ], $server[ 'port' ], $server[ 'persistent' ], $server[ 'weight' ]);
+
+    return $cache;
 };
 
 /* START ELOQUENT BOOT */
