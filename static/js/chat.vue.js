@@ -1,4 +1,4 @@
-var chatVM = new Vue({
+let chatVM = new Vue({
     el      : '#chatframe',
     data    : {
         message : '',
@@ -6,8 +6,13 @@ var chatVM = new Vue({
         io      : null
     },
     computed: {
+        /**
+         * Lazily compute input placeholder message
+         *
+         * @return {string} The formatted placeholder message
+         */
         placeholder: function () {
-            return 'Press [Enter ↵] to send message as ' + this.username;
+            return `Press [Enter ↵] to send message as ${this.username}`;
         }
     },
     methods : {
@@ -18,7 +23,7 @@ var chatVM = new Vue({
          *
          * @return {Element} Styled node
          */
-        _fat          : function (node) {
+        _fat(node) {
             node.style.fontWeight = 'bold';
             node.style.color      = 'gray';
 
@@ -31,7 +36,7 @@ var chatVM = new Vue({
          *
          * @return {Element} Styled node
          */
-        _mono         : function (node) {
+        _mono(node) {
             node.style.fontFamily = 'monospace';
 
             return node;
@@ -44,16 +49,15 @@ var chatVM = new Vue({
          *
          * @return {Element} A new span element
          */
-        span          : function (text, mono) {
+        span(text, mono = false) {
             // Create span node...
-            var span     = document.createElement('span');
+            let span     = document.createElement('span');
             // ...and a text node to fill it
-            var textNode = document.createTextNode(text);
+            let textNode = document.createTextNode(text);
 
             // It's marked as monospace worthy
             if (mono)
-            // mmmmm yes... Monospace...
-                span = this._mono(span);
+                span = this._mono(span); // mmmmm yes... Monospace...
 
             // Reunite text with it's parent
             span.appendChild(textNode);
@@ -70,13 +74,13 @@ var chatVM = new Vue({
          *
          * @return {Element} A new span element
          */
-        li            : function (username, text, status) {
+        li(username, text, status = false) {
             // Create new li node
-            var liNode = document.createElement('li');
+            let liNode = document.createElement('li');
 
             // Create spans for username and message
-            var usrNode = this.span(username + ': ', true); // Username is set to monospace (just because)
-            var msgNode = this.span(text);
+            let usrNode = this.span(username + ': ', true); // Username is set to monospace (just because)
+            let msgNode = this.span(text);
 
             // If it's marked as status
             if (status) {
@@ -99,17 +103,17 @@ var chatVM = new Vue({
          * @param {string} username - The name of the user
          * @param {string} text     - The message contents
          */
-        addMessage    : function (username, text) {
+        addMessage(username, text) {
             // Create a new li node
-            var node = this.li(username, text);
+            let node = this.li(username, text);
 
             // Append it to the display element
             this.$add(node);
         },
         /**
-         * Add the user's current message to display element and clear text field
+         * Add the user's current message to display element and clear the text field
          */
-        addSelfMessage: function () {
+        addSelfMessage() {
             // Add message to the screen
             this.addMessage(this.username, this.message);
 
@@ -119,11 +123,11 @@ var chatVM = new Vue({
         /**
          * Broadcast the message and display it
          */
-        sendMessage   : function () {
+        sendMessage() {
             // Send message on an adventure
             this.io.emit('chat message', this.message);
 
-            // Hang it's farewell picture on the wall
+            // Hang its farewell picture on the wall
             this.addSelfMessage();
         },
         /**
@@ -131,9 +135,9 @@ var chatVM = new Vue({
          *
          * @param {string} text - The status text
          */
-        addStatus     : function (text) {
+        addStatus(text) {
             // Create a new list element
-            var el = this.li(":~Status~", text, true);
+            let el = this.li(':~Status~', text, true);
 
             // Append it to the display element
             this.$add(el);
@@ -143,34 +147,33 @@ var chatVM = new Vue({
          *
          * @param {Element} node - The node to append
          */
-        $add          : function (node) {
+        $add(node) {
             this.$refs.messageDisplay.appendChild(node);
         },
         /**
          * Register Socket.IO related listeners
          */
-        socketRegister: function () {
-            var vm = this;
-            var io = vm.io;
+        socketRegister() {
+            let io = this.io;
 
             // Receive new message
-            io.on('chat message', function (msg) {
-                vm.addMessage(msg.username, msg.message);
+            io.on('chat message', (msg) => {
+                this.addMessage(msg.username, msg.message);
             });
 
             // New user joins
-            io.on('user join', function (username) {
-                vm.addStatus('+ ' + username + ' joined the chat');
+            io.on('user join', (username) => {
+                this.addStatus(`+ ${username} joined the chat`);
             });
 
             // Existing user leaves
-            io.on('user leave', function (username) {
-                vm.addStatus('- ' + username + ' left the chat');
+            io.on('user leave', (username) => {
+                this.addStatus(`- ${username} left the chat`);
             });
 
             // Store server returned username
-            io.on('user set', function (username) {
-                vm.username = username;
+            io.on('user set', (username) => {
+                this.username = username;
             });
         }
     },
