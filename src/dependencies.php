@@ -69,3 +69,8 @@ $container[ 'user' ] = function (Container $c) {
 
     return $user->addContainer($c, TRUE);
 };
+
+// Output helper
+$container[ 'o' ] = function () {
+    return new \App\Helpers\OutputHelper;
+};
