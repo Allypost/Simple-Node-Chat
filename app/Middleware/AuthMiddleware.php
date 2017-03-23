@@ -35,7 +35,7 @@ class AuthMiddleware {
     /**
      * Get user ID from session
      */
-    protected function getIdentifier() {
+    protected function getID() {
         $sessionKey = $this->getSessionKey();
 
         $identifier = @$_SESSION[ $sessionKey ];
@@ -59,7 +59,7 @@ class AuthMiddleware {
      * Sets the user authentication data
      */
     protected function setAppData() {
-        $identifier = $this->getIdentifier();
+        $identifier = $this->getID();
 
         if ($identifier)
             $this->container->auth = $this->getAppDataCache((string) $identifier);
@@ -70,21 +70,21 @@ class AuthMiddleware {
     /**
      * Gets the cached user data or returns fresh data if the cached object doesn't exist
      *
-     * @param string $identifier The identifier of the user
+     * @param string $id The id of the user
      *
      * @return array The user object
      */
-    protected function getAppDataCache(string $identifier) {
+    protected function getAppDataCache(string $id) {
         $cache  = $this->container->get('cache');
         $prefix = $this->container->get('settings')[ 'auth' ][ 'domain' ];
 
-        $cacheKey = "$prefix:user-data|{$identifier}:";
+        $cacheKey = "$prefix:user-data|{$id}:";
         $cacheFor = 5;
 
         $cacheHit = $userData = $cache->get($cacheKey);
 
         if (!$cacheHit) {
-            $userData = $this->container->get('user')->fetch($identifier);
+            $userData = $this->container->get('user')->fetch($id);
 
             $cache->set($cacheKey, $userData, MEMCACHE_COMPRESSED, $cacheFor);
         }
