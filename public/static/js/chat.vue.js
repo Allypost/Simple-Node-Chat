@@ -1,9 +1,9 @@
 let chatVM = new Vue({
     el      : '#chatframe',
     data    : {
-        message : '',
-        username: '',
-        io      : null
+        message: '',
+        user   : null,
+        io     : null
     },
     computed: {
         /**
@@ -13,6 +13,10 @@ let chatVM = new Vue({
          */
         placeholder: function () {
             return `Press [Enter ↵] to send message as ${this.username}`;
+        },
+        username   : function () {
+            let user = this.user || { username: '' };
+            return user.username;
         }
     },
     methods : {
@@ -197,15 +201,18 @@ let chatVM = new Vue({
                 this.addStatus(`- ${username} left the chat`);
             });
 
-            // Store server returned username
-            io.on('user set', (username) => {
-                this.username = username;
+            // Send data to server
+            io.on('connect', () => {
+                io.emit('user set', this.user);
             });
         }
     },
     mounted : function () {
         // Store Socket.IO in data
         this.io = io();
+
+        // Set user
+        this.$set(this, 'user', JSON.parse(this.$el.dataset.user));
 
         // Register Socket.IO event handlers
         this.socketRegister();

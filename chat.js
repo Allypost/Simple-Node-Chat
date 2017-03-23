@@ -4,16 +4,24 @@ let io     = require('socket.io')(server);
 
 server.listen(3000);
 
-io.on('connection', function (socket) {
-    socket.emit('user set', socket.id);
-    socket.broadcast.emit('user join', socket.id);
+let users = {};
 
+app.get('/online', (req, res) => {
+    res.json(users);
+});
+
+io.on('connection', function (socket) {
+    socket.on('user set', function (user) {
+        users[ socket.id ] = user;
+        socket.broadcast.emit('user join', user.username);
+    });
 
     socket.on('disconnect', function () {
-        socket.broadcast.emit('user leave', socket.id);
+        socket.broadcast.emit('user leave', users[ socket.id ].username);
+        delete users[ socket.id ];
     });
 
     socket.on('chat message', function (msg) {
-        socket.broadcast.emit('chat message', { 'message': msg, 'username': socket.id });
+        socket.broadcast.emit('chat message', { 'message': msg, 'username': users[ socket.id ].username });
     });
 });
