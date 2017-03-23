@@ -35,6 +35,16 @@ final class HomeAction {
         return $o->say('authentication login', [ $login[ 'data' ] ]);
     }
 
+    public function logout(Request $request, Response $response) {
+        $container = $this->container;
+
+        $user = $container->get('auth');
+
+        $user->addContainer($container, TRUE)->logout();
+
+        return $response->withRedirect($container->get('router')->pathFor('home'));
+    }
+
     public function login(Request $request, Response $response) {
         $this->view->render($response, 'login.twig');
 

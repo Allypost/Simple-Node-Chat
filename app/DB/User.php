@@ -163,6 +163,31 @@ class User extends Model {
     }
 
     /**
+     * Log the user out (delete session and cookie)
+     *
+     * @return bool True
+     */
+    public function logout() {
+        $app    = $this->container;
+        $config = $this->config;
+        $cookie = $app->get('cookie');
+
+        unset($_SESSION[ $config[ 'session' ] ]);
+
+        $user = $app->get('auth');
+
+        if (!$user)
+            return TRUE;
+
+        if ($cookie->get($config[ 'remember' ])) {
+            $app->auth->removeRememberCredentials();
+            $cookie->set($config[ 'remember' ], [ 'expires' => date('Y-m-d H:i:s', time() - 36000) ]);
+        }
+
+        return TRUE;
+    }
+
+    /**
      * Log the current user in (step 1 of 3)
      *  - Basic data sanitisation
      *  - Check login attempts
