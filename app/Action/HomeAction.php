@@ -42,7 +42,7 @@ final class HomeAction {
     }
 
     public function chat(Request $request, Response $response) {
-        $this->view->render($response, 'index.twig');
+        $this->view->render($response, 'chat.twig');
 
         return $response;
     }
