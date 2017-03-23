@@ -10,20 +10,18 @@ let loginVM = new Vue({
             return this.$el.getAttribute('action');
         },
         send() {
-            let vm = this;
-
             let data = {
-                identifier: vm.identifier,
-                password  : vm.password
+                identifier: this.identifier,
+                password  : this.password
             };
 
-            vm.loading = true;
+            this.loading = true;
 
             $.post(this.getURL(), data)
-             .done(function () {
+             .done(() => {
                  window.location.reload(true);
              })
-             .fail(function (d) {
+             .fail((d) => {
                  let data = d.responseJSON;
 
                  let errors = data.errors;
@@ -32,8 +30,8 @@ let loginVM = new Vue({
                      if (errors.hasOwnProperty(error))
                          Materialize.toast(errors[ error ], 5000, 'blue-grey darken-4 red-text');
              })
-             .always(function () {
-                 vm.loading = false;
+             .always(() => {
+                 this.loading = false;
              });
         }
     }
