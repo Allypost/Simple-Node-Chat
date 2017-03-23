@@ -1,1 +1,0 @@
-{"version":3,"sources":["X:\\Code\\NodeJS\\WORK\\Land of Nevard\\Chat\\public\\static\\css\\login.css"],"names":[],"mappings":"AAAA,oB,CACI,UACA,a","file":"X:\\Code\\NodeJS\\WORK\\Land of Nevard\\Chat\\public\\static\\css\\login.css","sourcesContent":[".row.login-container {\n    width: 50%;\n    margin: 0 auto;\n}"]}
