@@ -18,8 +18,26 @@ final class HomeAction {
         $this->auth      = $container->get('auth');
     }
 
-    public function auth(Request $request, Response $response, $args) {
-        return $response->withJson($args);
+    public function auth(Request $request, Response $response) {
+        $data = $request->getParsedBody();
+        $o    = $this->container->get('o');
+
+        $u = $this->container->get('user');
+
+        $identifier = $data[ 'identifier' ] ?? '';
+        $password   = $data[ 'password' ] ?? '';
+
+        $validCredentialsCheck = $u->loginValidateCredentials($identifier, $password);
+
+        if ($validCredentialsCheck[ 'status' ] !== 'ok')
+            return $o->err('authentication credentials missing', $validCredentialsCheck[ 'error' ]);
+
+        $login = $u->login($identifier, $password, TRUE);
+
+        if ($login[ 'status' ] !== 'ok')
+            return $o->err('authentication login', [ 'errors' => [ $login[ 'status' ] ] ]);
+
+        return $o->say('authentication login', [ $login[ 'data' ] ]);
     }
 
     public function login(Request $request, Response $response) {
