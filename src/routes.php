@@ -1,7 +1,8 @@
 <?php
 use App\Action\HomeAction as Home;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Slim\Http\{
+    Request, Response
+};
 
 // Routes
 $app->get('/', Home::class . ':home')->setName('home');
