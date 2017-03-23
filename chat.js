@@ -10,6 +10,12 @@ app.get('/online', (req, res) => {
     res.json(users);
 });
 
+app.get('/online/count', (req, res) => {
+    let len = Object.keys(users).length;
+
+    res.json({ online: len });
+});
+
 io.on('connection', function (socket) {
     socket.on('user set', function (user) {
         users[ socket.id ] = user;

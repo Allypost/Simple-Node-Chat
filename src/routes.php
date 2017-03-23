@@ -18,4 +18,11 @@ $app->group('/chat', function () {
         return $o->say('chat users', $online);
     })->setName('api:chat:online');
 
+    $this->get('/online/count', function (Request $request, Response $response) {
+        $o      = $this->get('o')->addResponse($response);
+        $online = json_decode(file_get_contents('http://localhost:3000/online/count'), TRUE);
+
+        return $o->say('chat users count', $online);
+    })->setName('api:chat:online:count');
+
 });
