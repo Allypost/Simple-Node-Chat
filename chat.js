@@ -1,4 +1,8 @@
-let io = require('socket.io')(3000, { transports: [ 'polling', 'websocket' ] });
+let app    = require('express')();
+let server = require('http').Server(app);
+let io     = require('socket.io')(server);
+
+server.listen(3000);
 
 io.on('connection', function (socket) {
     socket.emit('user set', socket.id);
