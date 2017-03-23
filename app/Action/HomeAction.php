@@ -20,18 +20,12 @@ final class HomeAction {
 
     public function auth(Request $request, Response $response) {
         $data = $request->getParsedBody();
-        $o    = $this->container->get('o')
-                                ->addResponse($response);
 
+        $o = $this->container->get('o')->addResponse($response);
         $u = $this->container->get('user');
 
         $identifier = $data[ 'identifier' ] ?? '';
         $password   = $data[ 'password' ] ?? '';
-
-        $credentialsCheck = $u->loginValidateCredentials($identifier, $password);
-
-        if ($credentialsCheck[ 'status' ] !== 'ok')
-            return $o->err('authentication credentials missing', $credentialsCheck[ 'error' ]);
 
         $login = $u->login($identifier, $password, TRUE);
 
