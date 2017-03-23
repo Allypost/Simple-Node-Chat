@@ -1,13 +1,16 @@
 <?php
 use App\Action\HomeAction as Home;
+use App\Middleware\{
+    UserLoggedInMiddleware, UserNotLoggedInMiddleware
+};
 use Slim\Http\{
     Request, Response
 };
 
 // Routes
 $app->get('/', Home::class . ':home')->setName('home');
-$app->post('/login', Home::class . ':auth')->setName('api:login');
-$app->get('/logout', Home::class . ':logout')->setName('api:logout');
+$app->post('/login', Home::class . ':auth')->add(UserNotLoggedInMiddleware::class)->setName('api:login');
+$app->get('/logout', Home::class . ':logout')->add(UserLoggedInMiddleware::class)->setName('api:logout');
 
 $app->group('/chat', function () {
 
@@ -25,4 +28,4 @@ $app->group('/chat', function () {
         return $o->say('chat users count', $online);
     })->setName('api:chat:online:count');
 
-});
+})->add(UserLoggedInMiddleware::class);
