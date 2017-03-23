@@ -29,7 +29,7 @@
 
                             <form method="POST" action="/login" class="col s12" id="login" @submit.prevent="send">
                                 <div class="row">
-                                    <inpt v-model="identifier" name="identifier" type="text">User ID</inpt>
+                                    <inpt v-model="identifier" name="identifier" type="text">Identifier (Username or Email)</inpt>
                                     <inpt v-model="password" name="password" type="password">Password</inpt>
                                     <div class="col s12 right-align">
                                         <button class="btn btn-large waves-effect" :data-loading="loading">Login</button>
