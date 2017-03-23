@@ -30,7 +30,7 @@ final class HomeAction {
         $login = $u->login($identifier, $password, TRUE);
 
         if ($login[ 'status' ] !== 'ok')
-            return $o->err('authentication login', [ 'errors' => [ $login[ 'status' ] ] ]);
+            return $o->err('authentication login', [ 'errors' => [ $login[ 'error' ] ] ]);
 
         return $o->say('authentication login', [ $login[ 'data' ] ]);
     }
