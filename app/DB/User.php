@@ -12,6 +12,7 @@ class User extends Model {
 
     protected $hash;
     protected $config;
+    protected $container;
 
     protected $fillable = [
         'uuid',
@@ -136,7 +137,7 @@ class User extends Model {
      *
      * @param array $credentials The credentials ([ 0 => the identifier, 1 => The token (un-hashed) ])
      *
-     * @return null|self Null if unsuccessful or user object if valid
+     * @return self|null Null if unsuccessful or user object if valid
      */
     public function refresh(array $credentials) {
         $h = $this->hash;
