@@ -62,9 +62,11 @@ class AuthMiddleware {
         $identifier = $this->getID();
 
         if ($identifier)
-            $this->container->auth = $this->getAppDataCache((string) $identifier);
+            $data = $this->getAppDataCache((string) $identifier);
         else
-            $this->container->auth = FALSE;
+            $data = FALSE;
+
+        $this->container[ 'auth' ] = $data;
     }
 
     /**
@@ -84,7 +86,7 @@ class AuthMiddleware {
         $cacheHit = $userData = $cache->get($cacheKey);
 
         if (!$cacheHit) {
-            $userData = $this->container->get('user')->fetch($id);
+            $userData = $this->container->get('user')->fetchBy('id', $id);
 
             $cache->set($cacheKey, $userData, MEMCACHE_COMPRESSED, $cacheFor);
         }
