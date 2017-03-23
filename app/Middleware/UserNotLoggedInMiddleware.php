@@ -16,8 +16,15 @@ class UserNotLoggedInMiddleware {
 
     public function __invoke(Request $request, Response $response, callable $next): Response {
         if ($this->container->get('auth'))
-            return $response->withRedirect($this->container->get('router')->pathFor('home'));
+            return $this->stop($request, $response);
 
         return $next($request, $response);
+    }
+
+    public function stop(Request $request, Response $response): Response {
+        if ($request->getAttribute('api'))
+            return $this->container->get('o')->addResponse($response)->err('authentication error', [ 'You have to be logged out to access this resource' ]);
+
+        return $response->withRedirect($this->container->get('router')->pathFor('home'));
     }
 }
