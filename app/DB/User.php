@@ -290,7 +290,7 @@ class User extends Model {
      * @return array Standard response
      */
     private function loginValidateCredentials(string $identifier, string $password): array {
-        if (empty($username) || empty($password))
+        if (empty($identifier) || empty($password))
             return self::err('Username and password must be filled in');
 
         return self::say(compact('identifier', 'password'));
