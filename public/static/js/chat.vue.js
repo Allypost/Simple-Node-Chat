@@ -14,6 +14,12 @@ let chatVM = new Vue({
         placeholder: function () {
             return `Press [Enter ↵] to send message as ${this.username}`;
         },
+        /**
+         * Compute the username from the user object to save some time
+         * in methods and in rendering
+         *
+         * @return {string} The username
+         */
         username   : function () {
             let user = this.user || { username: '' };
             return user.username;
@@ -186,6 +192,17 @@ let chatVM = new Vue({
         socketRegister() {
             let io = this.io;
 
+            // On established connection
+            io.on('connect', () => {
+                // Request user data synchronisation
+                // aka
+                // request the server's user object
+                io.emit('user sync', (user) => {
+                    // Set current user to server supplied user object
+                    this.$set(this, 'user', user);
+                });
+            });
+
             // Receive new message
             io.on('chat message', (msg) => {
                 this.addMessage(msg.username, msg.message);
@@ -200,19 +217,11 @@ let chatVM = new Vue({
             io.on('user leave', (username) => {
                 this.addStatus(`- ${username} left the chat`);
             });
-
-            // Send data to server
-            io.on('connect', () => {
-                io.emit('user set', this.user);
-            });
         }
     },
     mounted : function () {
         // Store Socket.IO in data
         this.io = io();
-
-        // Set user
-        this.$set(this, 'user', JSON.parse(this.$el.dataset.user));
 
         // Register Socket.IO event handlers
         this.socketRegister();
