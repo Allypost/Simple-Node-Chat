@@ -57,6 +57,13 @@ $container[ 'db' ] = function () use ($capsule) {
     return $capsule;
 };
 
+// Cookie stuff (may be delicious)
+$container[ 'cookie' ] = function ($c) {
+    $request = $c->get('request');
+
+    return new \Slim\Http\Cookies($request->getCookieParams());
+};
+
 ##### HELPERS #####
 $container[ 'hash' ] = function (Container $c) {
     $settings = $c->get('settings')[ 'hash' ];
