@@ -19,7 +19,6 @@
   "homepage": "https://github.com/Allypost/LoN-Chat#readme",
   "dependencies": {
     "google-closure-compiler": "^20170218.0.0",
-    "redis": "^2.7.1",
     "socket.io": "^1.7.3"
   }
 }
