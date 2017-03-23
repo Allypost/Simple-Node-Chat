@@ -28,7 +28,22 @@ function getUserUsername(socketID) {
     return getUser(socketID)[ 'username' ];
 }
 
+function getUserSessions(userID) {
+    let user     = users[ userID ];
+    let sessions = [];
+
+    for (let s in sockets)
+        if (sockets.hasOwnProperty(s) && sockets[ s ] == user.id)
+            sessions.push(s);
+
+    return sessions;
+}
+
 app.get('/online', (req, res) => {
+    for (let u in users)
+        if (users.hasOwnProperty(u))
+            users[ u ][ 'sessions' ] = getUserSessions(u).length;
+
     res.json(users);
 });
 
