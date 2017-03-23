@@ -27,10 +27,10 @@ final class HomeAction {
         $identifier = $data[ 'identifier' ] ?? '';
         $password   = $data[ 'password' ] ?? '';
 
-        $validCredentialsCheck = $u->loginValidateCredentials($identifier, $password);
+        $credentialsCheck = $u->loginValidateCredentials($identifier, $password);
 
-        if ($validCredentialsCheck[ 'status' ] !== 'ok')
-            return $o->err('authentication credentials missing', $validCredentialsCheck[ 'error' ]);
+        if ($credentialsCheck[ 'status' ] !== 'ok')
+            return $o->err('authentication credentials missing', $credentialsCheck[ 'error' ]);
 
         $login = $u->login($identifier, $password, TRUE);
 
