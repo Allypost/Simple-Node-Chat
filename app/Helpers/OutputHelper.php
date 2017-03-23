@@ -44,7 +44,7 @@ class OutputHelper {
      *
      * @return Response The modified response object
      */
-    public function err(string $reason, $errors = [], $action = '', int $status = 400): Response {
+    public function err(string $reason, $errors = [], $action = '', int $status = 403): Response {
         return $this->output(self::errResponse($reason, $errors, $action), $status);
     }
 
